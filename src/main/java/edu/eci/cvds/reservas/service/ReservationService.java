@@ -1,12 +1,17 @@
 package edu.eci.cvds.reservas.service;
 
-
 import edu.eci.cvds.reservas.model.Reservation;
 import edu.eci.cvds.reservas.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.time.LocalDateTime;
@@ -18,9 +23,28 @@ public class ReservationService {
 
 
     public List<Reservation> consultReservation() {
-        return reservaRepository.findAll();
-    }
+        List<Reservation> reservations = reservaRepository.findAll();
+        List<Reservation> weekReservations = new ArrayList<>();
+        LocalDate todayDate = LocalDate.now();
+        DayOfWeek monday = DayOfWeek.MONDAY;
+        LocalDate mondayDate = todayDate.with(monday);
+        LocalDate saturdayDate = mondayDate.plusDays(5);
+        LocalDateTime mondayDateTime = mondayDate.atStartOfDay();
+        LocalDateTime saturdayDateTime = saturdayDate.atTime(LocalTime.MAX);
+        for (Reservation reservation : reservations) {
 
+            if (!reservation.getDateHour().isBefore(mondayDateTime)
+                    && !reservation.getDateHour().isAfter(saturdayDateTime)) {
+
+                weekReservations.add(reservation);
+
+            }
+
+        }
+
+        return weekReservations;
+
+    }
 
     public Reservation createReservation(Reservation reserva) {
         // To Do
@@ -28,6 +52,7 @@ public class ReservationService {
     }
 
     public void cancelReservation(String id) {
+
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("The reservation ID cannot be empty or null.");
         }
@@ -46,4 +71,3 @@ public class ReservationService {
 
     }
 }
-
