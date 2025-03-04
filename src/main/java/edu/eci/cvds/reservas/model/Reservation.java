@@ -12,15 +12,25 @@ public class Reservation {
     private LocalDateTime dateHour;
     private String user;
     private String className;
+    private LocalDateTime creationDate;
 
     public Reservation() {
     }
 
-    public Reservation(String laboratory, LocalDateTime dateHour, String user, String className) {
+    public Reservation(LocalDateTime creationDate,String laboratory, LocalDateTime dateHour, String user, String className) {
         this.laboratory = laboratory;
         this.dateHour = dateHour;
         this.user = user;
         this.className = className;
+        this.creationDate = creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
     }
 
     public String getIdReservation() {
@@ -61,6 +71,14 @@ public class Reservation {
 
     public void setClassName(String className) {
         this.className = className;
+    }
+
+    public String getId(){
+        return idReservation;
+    }
+
+    public void setId(String id){
+        this.idReservation = id;
     }
 
     @Override
