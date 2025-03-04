@@ -43,6 +43,7 @@ public class ReservationService {
         }
         reservaRepository.deleteById(id);
         System.out.println("Successfully canceled reservation with ID: " + id);
+
     }
 }
 
