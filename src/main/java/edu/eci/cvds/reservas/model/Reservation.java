@@ -4,11 +4,7 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-<<<<<<< HEAD
-@Document("reservation")
-=======
 @Document(collection = "reservations")
->>>>>>> 2ef0d2f (FIX: Functional REST API with basic CRUD and bug fixes)
 public class Reservation {
     @Id
     private String idReservation;

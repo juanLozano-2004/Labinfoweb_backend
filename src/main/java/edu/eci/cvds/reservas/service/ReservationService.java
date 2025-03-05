@@ -20,7 +20,27 @@ import java.time.LocalDateTime;
 public class ReservationService {
     private final ReservationRepository reservationRepository;
 
-<<<<<<< HEAD
+
+    // Constructor
+    public ReservationService(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
+    }
+
+    // GET: Obtain all Reservations
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll();
+    }
+
+    // ADD: Save or Update a Reservation
+    public Reservation saveReservation(Reservation reservation) {
+        return reservationRepository.save(reservation);
+    }
+
+    // DELETE: Remove a Reservation by given id
+    public void deleteReservation(String id) {
+        reservationRepository.deleteById(id);
+
+
 
     public List<Reservation> consultReservation() {
         List<Reservation> reservations = reservaRepository.findAll();
@@ -46,10 +66,6 @@ public class ReservationService {
 
     }
 
-    public Reservation createReservation(Reservation reserva) {
-        // To Do
-        return reservaRepository.saveReservation(reserva);
-    }
 
     public void cancelReservation(String id) {
 
@@ -69,7 +85,7 @@ public class ReservationService {
         reservaRepository.deleteById(id);
         System.out.println("Successfully canceled reservation with ID: " + id);
 
-=======
+
     // Constructor
     public ReservationService(ReservationRepository reservationRepository) {
         this.reservationRepository = reservationRepository;
@@ -78,6 +94,7 @@ public class ReservationService {
     // GET: Obtain all Reservations
     public List<Reservation> getAllReservations() {
         return reservationRepository.findAll();
+
     }
 
     // ADD: Save or Update a Reservation
@@ -88,6 +105,5 @@ public class ReservationService {
     // DELETE: Remove a Reservation by given id
     public void deleteReservation(String id) {
         reservationRepository.deleteById(id);
->>>>>>> 2ef0d2f (FIX: Functional REST API with basic CRUD and bug fixes)
     }
 }
