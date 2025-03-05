@@ -10,21 +10,26 @@ import java.util.List;
 
 @Service
 public class ReservationService {
-    @Autowired
-    private ReservationRepository reservaRepository;
+    private final ReservationRepository reservationRepository;
 
-    public List<Reservation> consultarReservas() {
-        //To Do
-        return null;
+    // Constructor
+    public ReservationService(ReservationRepository reservationRepository) {
+        this.reservationRepository = reservationRepository;
     }
 
-    public Reservation crearReserva(Reservation reserva) {
-        // To Do
-        return reservaRepository.save(reserva);
+    // GET: Obtain all Reservations
+    public List<Reservation> getAllReservations() {
+        return reservationRepository.findAll();
     }
 
-    public void cancelarReserva(String id) {
-        //To Do
+    // ADD: Save or Update a Reservation
+    public Reservation saveReservation(Reservation reservation) {
+        return reservationRepository.save(reservation);
+    }
+
+    // DELETE: Remove a Reservation by given id
+    public void deleteReservation(String id) {
+        reservationRepository.deleteById(id);
     }
 }
 

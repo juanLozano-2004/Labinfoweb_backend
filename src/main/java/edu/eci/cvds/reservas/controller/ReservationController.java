@@ -2,30 +2,32 @@ package edu.eci.cvds.reservas.controller;
 
 import edu.eci.cvds.reservas.model.Reservation;
 import edu.eci.cvds.reservas.service.ReservationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/gestion")
+@RequestMapping("/reservation")
 public class ReservationController {
-    @Autowired
-    private ReservationService reservaService;
+    private ReservationService reservationService;
 
-    @GetMapping("/reservas")
+    public ReservationController(ReservationService reservationService) {
+        this.reservationService = reservationService;
+    }
+
+    @GetMapping("/get/all")
     public List<Reservation> consultarReservas() {
-        return reservaService.consultReservation();
+        return reservationService.getAllReservations();
     }
 
-    @PostMapping("/reservar")
+    @PostMapping("/post/")
     public Reservation reservarLaboratorio(@RequestBody Reservation reserva) {
-        return reservaService.createReservation(reserva);
+        return reservationService.saveReservation(reserva);
     }
 
-    @DeleteMapping("/cancelar/{id}")
+    @DeleteMapping("/delete/{id}")
     public void cancelarReserva(@PathVariable String id) {
-        reservaService.cancelReservation(id);
+        reservationService.deleteReservation(id);
     }
 
 
