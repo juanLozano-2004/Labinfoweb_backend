@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ReservationRepository  {
     Reservation saveReservation(Reservation reservation);
+    List<Reservation> findByUser(String userId);
     Reservation findReservationById(String id);
     List<Reservation> findAllReservations();
     void deleteReservation(Reservation reservation);

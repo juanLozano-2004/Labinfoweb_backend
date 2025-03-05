@@ -18,7 +18,7 @@ import java.util.List;
  * It uses UserService to handle business logic.
  */
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/user")
 @CrossOrigin(origins = "*")
 public class UserController {
 

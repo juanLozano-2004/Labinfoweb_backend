@@ -2,9 +2,8 @@ package edu.eci.cvds.reservas.service;
 
 import edu.eci.cvds.reservas.model.Reservation;
 import edu.eci.cvds.reservas.repository.reservation.ReservationRepository;
+import edu.eci.cvds.reservas.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -13,12 +12,10 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.time.LocalDateTime;
 
 @Service
 public class ReservationService {
-    private final ReservationRepository reservationRepository;
+    private ReservationRepository reservationRepository;
 
 
     // Constructor
@@ -26,24 +23,12 @@ public class ReservationService {
         this.reservationRepository = reservationRepository;
     }
 
+
+
     // GET: Obtain all Reservations
     public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
-    }
 
-    // ADD: Save or Update a Reservation
-    public Reservation saveReservation(Reservation reservation) {
-        return reservationRepository.save(reservation);
-    }
-
-    // DELETE: Remove a Reservation by given id
-    public void deleteReservation(String id) {
-        reservationRepository.deleteById(id);
-
-
-
-    public List<Reservation> consultReservation() {
-        List<Reservation> reservations = reservaRepository.findAll();
+        List<Reservation> reservations = reservationRepository.findAllReservations();
         List<Reservation> weekReservations = new ArrayList<>();
         LocalDate todayDate = LocalDate.now();
         DayOfWeek monday = DayOfWeek.MONDAY;
@@ -64,16 +49,21 @@ public class ReservationService {
 
         return weekReservations;
 
+
     }
 
+    // ADD: Save or Update a Reservation
+    public Reservation saveReservation(Reservation reservation) {
+        return reservationRepository.saveReservation(reservation);
+    }
 
-    public void cancelReservation(String id) {
+    // DELETE: Remove a Reservation by given id
+    public void deleteReservation(String id) {
 
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("The reservation ID cannot be empty or null.");
         }
-        Reservation reservation = reservaRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("No reservation found with ID " + id));
+        Reservation reservation = reservationRepository.findReservationById(id);
         LocalDateTime today = LocalDateTime.now();
         LocalDateTime reservationTime = reservation.getDateHour();
         if (!reservationTime.isAfter(today)) {
@@ -82,28 +72,8 @@ public class ReservationService {
         if (today.isAfter(reservationTime.minusMinutes(10)) && today.isBefore(reservationTime.plusMinutes(10))) {
             throw new IllegalStateException("Cannot cancel a reservation that is currently in progress.");
         }
-        reservaRepository.deleteById(id);
+        Reservation r = reservationRepository.findReservationById(id);
+        reservationRepository.deleteReservation(r);
         System.out.println("Successfully canceled reservation with ID: " + id);
-
-
-    // Constructor
-    public ReservationService(ReservationRepository reservationRepository) {
-        this.reservationRepository = reservationRepository;
-    }
-
-    // GET: Obtain all Reservations
-    public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
-
-    }
-
-    // ADD: Save or Update a Reservation
-    public Reservation saveReservation(Reservation reservation) {
-        return reservationRepository.save(reservation);
-    }
-
-    // DELETE: Remove a Reservation by given id
-    public void deleteReservation(String id) {
-        reservationRepository.deleteById(id);
     }
 }
