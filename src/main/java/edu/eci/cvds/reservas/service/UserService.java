@@ -81,7 +81,7 @@ public class UserService {
         if(!userRepository.existsById(id)){
             throw new RuntimeException("User not found");
         }
-        List<Reservation> reservations = reservationRepository.findAllTasks();
+        List<Reservation> reservations = reservationRepository.findAllReservations();
         List<Reservation> userReservations = new ArrayList<>();
         for (Reservation reservation : reservations) {
             if (reservation.getUser().equals(id)) {
