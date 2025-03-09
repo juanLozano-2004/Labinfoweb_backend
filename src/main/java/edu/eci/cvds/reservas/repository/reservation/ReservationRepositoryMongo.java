@@ -24,7 +24,7 @@ public interface ReservationRepositoryMongo extends ReservationRepository, Mongo
     }
 
 
-    List<Reservation> findByUser(String userId);
+    List<Reservation> findByUser(String username);
 
     @Override
     default void deleteReservation(Reservation reservation) {

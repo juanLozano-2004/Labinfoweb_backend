@@ -3,6 +3,7 @@ package edu.eci.cvds.reservas.service;
 import edu.eci.cvds.reservas.model.Reservation;
 import edu.eci.cvds.reservas.repository.reservation.ReservationRepository;
 import edu.eci.cvds.reservas.repository.user.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
@@ -15,39 +16,32 @@ import java.util.List;
 
 @Service
 public class ReservationService {
+
+    @Autowired
     private ReservationRepository reservationRepository;
 
-
-    // Constructor
-    public ReservationService(ReservationRepository reservationRepository) {
-        this.reservationRepository = reservationRepository;
-    }
 
 
 
     // GET: Obtain all Reservations
     public List<Reservation> getAllReservations() {
 
-        List<Reservation> reservations = reservationRepository.findAllReservations();
-        List<Reservation> weekReservations = new ArrayList<>();
-        LocalDate todayDate = LocalDate.now();
-        DayOfWeek monday = DayOfWeek.MONDAY;
-        LocalDate mondayDate = todayDate.with(monday);
-        LocalDate saturdayDate = mondayDate.plusDays(5);
-        LocalDateTime mondayDateTime = mondayDate.atStartOfDay();
-        LocalDateTime saturdayDateTime = saturdayDate.atTime(LocalTime.MAX);
-        for (Reservation reservation : reservations) {
-
-            if (!reservation.getDateHour().isBefore(mondayDateTime)
-                    && !reservation.getDateHour().isAfter(saturdayDateTime)) {
-
-                weekReservations.add(reservation);
-
-            }
-
-        }
-
-        return weekReservations;
+        return reservationRepository.findAllReservations();
+//        List<Reservation> weekReservations = new ArrayList<>();
+//        LocalDate todayDate = LocalDate.now();
+//        DayOfWeek monday = DayOfWeek.MONDAY;
+//        LocalDate mondayDate = todayDate.with(monday);
+//        LocalDate saturdayDate = mondayDate.plusDays(5);
+//        LocalDateTime mondayDateTime = mondayDate.atStartOfDay();
+//        LocalDateTime saturdayDateTime = saturdayDate.atTime(LocalTime.MAX);
+//        for (Reservation reservation : reservations) {
+//
+//            if (!reservation.getDateHour().isBefore(mondayDateTime)
+//                    && !reservation.getDateHour().isAfter(saturdayDateTime)) {
+//
+//                weekReservations.add(reservation);
+//
+//            }
 
 
     }
