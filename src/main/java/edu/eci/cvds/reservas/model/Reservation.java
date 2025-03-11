@@ -10,14 +10,14 @@ public class Reservation {
     private String idReservation;
     private String laboratory;
     private LocalDateTime dateHour;
-    private String user;
+    private User user;
     private String className;
     private LocalDateTime creationDate;
 
     public Reservation() {
     }
 
-    public Reservation(LocalDateTime creationDate,String laboratory, LocalDateTime dateHour, String user, String className) {
+    public Reservation(LocalDateTime creationDate,String laboratory, LocalDateTime dateHour, User user, String className) {
         this.laboratory = laboratory;
         this.dateHour = dateHour;
         this.user = user;
@@ -57,11 +57,11 @@ public class Reservation {
         this.dateHour = dateHour;
     }
 
-    public String getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
