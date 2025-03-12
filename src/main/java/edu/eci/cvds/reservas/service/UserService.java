@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import edu.eci.cvds.reservas.repository.reservation.ReservationRepository;
 
+/**
+ * Service class for managing User entities.
+ */
 @Service
 public class UserService {
     @Autowired
@@ -25,6 +28,7 @@ public class UserService {
      * Saves a User to the database.
      * Checks if the User's username or email already exists before saving.
      * Throws a RuntimeException if the username or email already exists.
+     *
      * @param user the User to save.
      * @return the saved User.
      */
@@ -40,6 +44,7 @@ public class UserService {
 
     /**
      * Retrieves all Users from the database.
+     *
      * @return a list of all Users.
      */
     public List<User> getAllUser() {
@@ -48,6 +53,7 @@ public class UserService {
 
     /**
      * Finds a User by their ID.
+     *
      * @param id the ID of the User to find.
      * @return the User if found, null otherwise.
      */
@@ -57,6 +63,7 @@ public class UserService {
 
     /**
      * Deletes a User by their ID.
+     *
      * @param id the ID of the User to delete.
      */
     public void deleteUser(String id) {
@@ -64,18 +71,20 @@ public class UserService {
     }
 
     /**
-     * get user by his username
-     * @param username
-     * @return
+     * Retrieves a User by their username.
+     *
+     * @param username the username of the User to find.
+     * @return the User if found, null otherwise.
      */
     public User getUserByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
 
     /**
-     * get all user tasks by user id
-     * @param id
-     * @return a list of all tasks of the user
+     * Retrieves all Reservations made by a User.
+     *
+     * @param id the ID of the User.
+     * @return a list of all Reservations made by the User.
      */
     public List<Reservation> getAllReservationByUserId(String id) {
         if(!userRepository.existsById(id)){
@@ -92,8 +101,9 @@ public class UserService {
     }
 
     /**
-     * Update the lastLogin of the userto the current date
-     * @param id
+     * Updates the last login date of the User to the current date.
+     *
+     * @param id the ID of the User.
      */
     public void updateLastLogin(String id) {
         User user = userRepository.findUserById(id);
