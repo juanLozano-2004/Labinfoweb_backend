@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import edu.eci.cvds.reservas.model.Laboratory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -30,17 +31,23 @@ public class ReservationServiceTests {
 
     private User user;
 
+    private Laboratory lab1;
+
+    private Laboratory lab2;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        user = new User(); // Crear un usuario de prueba
+        user = new User();// Crear un usuario de prueba
+        lab1 = new Laboratory("Lab1", "Location1");
+        lab2 = new Laboratory("Lab2", "Location2");
     }
 
     @Test
     void getAllReservations_returnsAllReservations() {
         List<Reservation> reservations = Arrays.asList(
-            new Reservation(LocalDateTime.now(), "Lab1", LocalDateTime.now(), user, "Class1"),
-            new Reservation(LocalDateTime.now(), "Lab2", LocalDateTime.now(), user, "Class2")
+            new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now(), user, "Class1"),
+            new Reservation(LocalDateTime.now(), lab2, LocalDateTime.now(), user, "Class2")
         );
         when(reservationRepository.findAllReservations()).thenReturn(reservations);
 
@@ -51,7 +58,7 @@ public class ReservationServiceTests {
 
     @Test
     void saveReservation_savesReservation() {
-        Reservation reservation = new Reservation(LocalDateTime.now(), "Lab1", LocalDateTime.now(), user, "Class1");
+        Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now(), user, "Class1");
         when(reservationRepository.saveReservation(reservation)).thenReturn(reservation);
 
         Reservation result = reservationService.saveReservation(reservation);
@@ -76,7 +83,7 @@ public class ReservationServiceTests {
 
     @Test
     void deleteReservation_whenReservationInPast_throwsException() {
-        Reservation reservation = new Reservation(LocalDateTime.now(), "Lab1", LocalDateTime.now().minusDays(1), user, "Class1");
+        Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now().minusDays(1), user, "Class1");
         when(reservationRepository.findReservationById("1")).thenReturn(reservation);
 
         assertThrows(IllegalStateException.class, () -> {
@@ -86,7 +93,7 @@ public class ReservationServiceTests {
 
     @Test
     void deleteReservation_whenReservationInProgress_throwsException() {
-        Reservation reservation = new Reservation(LocalDateTime.now(), "Lab1", LocalDateTime.now().plusMinutes(5), user, "Class1");
+        Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now().plusMinutes(5), user, "Class1");
         when(reservationRepository.findReservationById("1")).thenReturn(reservation);
 
         assertThrows(IllegalStateException.class, () -> {
@@ -96,7 +103,7 @@ public class ReservationServiceTests {
 
     @Test
     void deleteReservation_deletesReservation() {
-        Reservation reservation = new Reservation(LocalDateTime.now(), "Lab1", LocalDateTime.now().plusDays(1), user, "Class1");
+        Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now().plusDays(1), user, "Class1");
         when(reservationRepository.findReservationById("1")).thenReturn(reservation);
 
         reservationService.deleteReservation("1");
