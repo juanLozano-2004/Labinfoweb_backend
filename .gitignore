@@ -1,0 +1,77 @@
+### Directorios y archivos generados por Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+### Archivos de empaquetado ###
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+### Maven Wrapper ###
+.mvn/wrapper/
+
+### Eclipse ###
+.project
+.classpath
+.settings/
+.metadata/
+.recommenders/
+.springBeans
+.apt_generated
+.factorypath
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea/
+.shelf/
+*.iml
+*.ipr
+*.iws
+/out/
+out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### Gradle ###
+.gradle/
+build/
+
+### VS Code ###
+.vscode/
+
+### Archivos compilados y temporales ###
+*.class
+*.log
+*.tmp
+*.bak
+*.swp
+*.ctxt
+*~.nib
+hs_err_pid*
+replay_pid*
+
+### Archivos y directorios de sistemas de control de versiones ###
+.svn/
+CVS/
+.cvsignore
+
+### Configuraciones locales ###
+local.properties
+.loadpath
