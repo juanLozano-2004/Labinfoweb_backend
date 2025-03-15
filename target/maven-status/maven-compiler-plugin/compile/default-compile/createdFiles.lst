@@ -1,0 +1,13 @@
+edu\eci\cvds\reservas\service\ReservationService.class
+edu\eci\cvds\reservas\service\UserService.class
+edu\eci\cvds\reservas\repository\ReservationRepository.class
+edu\eci\cvds\reservas\controller\UserController.class
+edu\eci\cvds\reservas\model\Role.class
+edu\eci\cvds\reservas\model\User.class
+edu\eci\cvds\reservas\repository\user\UserRepositoryMongo.class
+edu\eci\cvds\reservas\repository\reservation\ReservationRepositoryMongo.class
+edu\eci\cvds\reservas\ReservasLabApplication.class
+edu\eci\cvds\reservas\controller\ReservationController.class
+edu\eci\cvds\reservas\repository\user\UserRepository.class
+edu\eci\cvds\reservas\repository\reservation\ReservationRepository.class
+edu\eci\cvds\reservas\model\Reservation.class
