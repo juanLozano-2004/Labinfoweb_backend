@@ -47,8 +47,14 @@ public class SecurityConfig {
                 .csrf(cors -> {})
                 .sessionManagement(session -> {})
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/usuarios/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/laboratory/all").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/api/v1/laboratory/getLaboratory/").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/api/v1/laboratory/create/").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/reservation/delete/").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/reservation/").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/api/v1/user/**").hasRole("ADMIN")
+                        .requestMatchers("/reservations/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

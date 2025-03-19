@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +18,7 @@ import edu.eci.cvds.reservas.model.Laboratory;
 import edu.eci.cvds.reservas.service.LaboratoryService;
 
 @RestController
-@RequestMapping("/laboratory")
-@CrossOrigin(origins = "*")
+@RequestMapping("/api/v1/laboratory")
 public class LaboratoryController {
 
     @Autowired
@@ -30,7 +28,6 @@ public class LaboratoryController {
     public List<Laboratory> getAllLaboratories(){
         return laboratoryService.getAllLaboratories();
     }
-
     @PostMapping("/create")
     public ResponseEntity<?> saveLaboratory(@RequestBody Laboratory laboratory){
         HashMap<String, String> response;
