@@ -74,3 +74,7 @@ Este proyecto utiliza diversas dependencias de **Spring Boot** para gestionar la
 
 ## Modelo de Datos: ASTAH
 ![img](./Images/screen2_datamodel.png)
+
+
+### Seguridad
+realizamos modificaciones al pom.xml para asegurar la seguridad al entrar a la aplicación ademas de asegurar las paginas

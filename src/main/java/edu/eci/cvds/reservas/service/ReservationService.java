@@ -30,21 +30,6 @@ package edu.eci.cvds.reservas.service;
             public List<Reservation> getAllReservations() {
                 return reservationRepository.findAllReservations();
             }
-//        List<Reservation> weekReservations = new ArrayList<>();
-//        LocalDate todayDate = LocalDate.now();
-//        DayOfWeek monday = DayOfWeek.MONDAY;
-//        LocalDate mondayDate = todayDate.with(monday);
-//        LocalDate saturdayDate = mondayDate.plusDays(5);
-//        LocalDateTime mondayDateTime = mondayDate.atStartOfDay();
-//        LocalDateTime saturdayDateTime = saturdayDate.atTime(LocalTime.MAX);
-//        for (Reservation reservation : reservations) {
-//
-//            if (!reservation.getDateHour().isBefore(mondayDateTime)
-//                    && !reservation.getDateHour().isAfter(saturdayDateTime)) {
-//
-//                weekReservations.add(reservation);
-//
-//            }
 
             /**
              * Saves or updates a Reservation entity.
@@ -80,4 +65,17 @@ package edu.eci.cvds.reservas.service;
                 reservationRepository.deleteReservation(r);
                 System.out.println("Successfully canceled reservation with ID: " + id);
             }
+
+            public Reservation getReservationById(String id) {
+                return reservationRepository.findReservationById(id);
+            }
+
+            public List<Reservation> getReservationsByUser(String username) {
+                return reservationRepository.findByUser(username);
+            }
+
+            public Reservation updateReservation(Reservation reservation) {
+                return reservationRepository.updateReservation(reservation);
+            }
+
         }
