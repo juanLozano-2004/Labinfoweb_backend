@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
-
 /**
  * UserController class provides RESTful endpoints for User-related operations.
  * It uses UserService to handle business logic.
@@ -135,3 +134,4 @@ public class UserController {
         }
     }
 }
+
