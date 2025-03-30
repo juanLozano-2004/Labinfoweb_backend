@@ -47,7 +47,6 @@ public class UserController {
         try {
             user.setId(null);
             user.setLastLogin(null);
-            user.setRole(Role.USER);
             user.setCreationDate(LocalDate.now());
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
@@ -58,21 +57,12 @@ public class UserController {
         }
     }
 
-    /**
-     * Creates a new Admin.
-     * @param user the User to create.
-     * @return a ResponseEntity with the created User or an error message.
-     */
-    @PostMapping("/create/admin")
-    public ResponseEntity<?> saveAdmin(@RequestBody User user) {
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
         HashMap<String, String> response;
         try {
-            user.setId(null);
-            user.setLastLogin(null);
-            user.setRole(Role.ADMIN);
-            user.setCreationDate(LocalDate.now());
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
+            return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(user));
         } catch (Exception e) {
             response = new HashMap<>();
             response.put("error", e.getMessage());
@@ -120,10 +110,10 @@ public class UserController {
     /**
      * Get all task by user id
      * @param id
-     * @return a list of all tasks of the user
+     * @return a list of all Reservation of the user
      */
     @GetMapping("/getReservation/{id}")
-    public ResponseEntity<?> getAllTaskByUserId(@PathVariable String id) {
+    public ResponseEntity<?> getAllReservationByUserId(@PathVariable String id) {
         HashMap<String, String> response;
         try {
             return ResponseEntity.status(HttpStatus.OK).body(userService.getAllReservationByUserId(id));

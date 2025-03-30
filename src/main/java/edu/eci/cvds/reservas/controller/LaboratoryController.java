@@ -28,6 +28,7 @@ public class LaboratoryController {
     public List<Laboratory> getAllLaboratories(){
         return laboratoryService.getAllLaboratories();
     }
+
     @PostMapping("/create")
     public ResponseEntity<?> saveLaboratory(@RequestBody Laboratory laboratory){
         HashMap<String, String> response;
@@ -42,6 +43,18 @@ public class LaboratoryController {
             return ResponseEntity.badRequest().body(response);
         }
 
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateLaboratory(@RequestBody Laboratory laboratory){
+        HashMap<String, String> response;
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(laboratoryService.updateLaboratory(laboratory));
+        } catch (Exception e) {
+            response = new HashMap<>();
+            response.put("error, could not update laboratory", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 
     @GetMapping("/{idLaboratory}")

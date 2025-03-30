@@ -54,7 +54,7 @@ package edu.eci.cvds.reservas.service;
                 }
                 Reservation reservation = reservationRepository.findReservationById(id);
                 LocalDateTime today = LocalDateTime.now();
-                LocalDateTime reservationTime = reservation.getDateHour();
+                LocalDateTime reservationTime = reservation.getStartTime();
                 if (!reservationTime.isAfter(today)) {
                     throw new IllegalStateException("Reservations in the past cannot be canceled.");
                 }
