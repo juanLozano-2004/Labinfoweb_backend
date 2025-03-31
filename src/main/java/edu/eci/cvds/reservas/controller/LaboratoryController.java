@@ -34,8 +34,6 @@ public class LaboratoryController {
         HashMap<String, String> response;
         try{
             laboratory.setIdLabortatory(null);
-            laboratory.setName(null);
-            laboratory.setLocation(null);
             return ResponseEntity.status(HttpStatus.CREATED).body(laboratoryService.save(laboratory));
         } catch (Exception e) {
             response = new HashMap<>();

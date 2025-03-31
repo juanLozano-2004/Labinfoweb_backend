@@ -46,8 +46,8 @@ package edu.eci.cvds.reservas.service;
                 @Test
                 void getAllReservations_returnsAllReservations() {
                     List<Reservation> reservations = Arrays.asList(
-                        new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now(), LocalDateTime.now().plusHours(1), user, "Class1"),
-                        new Reservation(LocalDateTime.now(), lab2, LocalDateTime.now(), LocalDateTime.now().plusHours(1), user, "Class2")
+                        new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now(), LocalDateTime.now().plusHours(1), user, "Class1", "Professor1"),
+                        new Reservation(LocalDateTime.now(), lab2, LocalDateTime.now(), LocalDateTime.now().plusHours(1), user, "Class2", "Professor2")
                     );
                     when(reservationRepository.findAllReservations()).thenReturn(reservations);
 
@@ -58,7 +58,7 @@ package edu.eci.cvds.reservas.service;
 
                 @Test
                 void saveReservation_savesReservation() {
-                    Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now(), LocalDateTime.now().plusHours(1), user, "Class1");
+                    Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now(), LocalDateTime.now().plusHours(1), user, "Class1", "Professor1");
                     when(reservationRepository.saveReservation(reservation)).thenReturn(reservation);
 
                     Reservation result = reservationService.saveReservation(reservation);
@@ -83,7 +83,7 @@ package edu.eci.cvds.reservas.service;
 
                 @Test
                 void deleteReservation_whenReservationInPast_throwsException() {
-                    Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now().minusDays(1), LocalDateTime.now().minusDays(1).plusHours(1), user, "Class1");
+                    Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now().minusDays(1), LocalDateTime.now().minusDays(1).plusHours(1), user, "Class1", "Professor1");
                     when(reservationRepository.findReservationById("1")).thenReturn(reservation);
 
                     assertThrows(IllegalStateException.class, () -> {
@@ -93,7 +93,7 @@ package edu.eci.cvds.reservas.service;
 
                 @Test
                 void deleteReservation_whenReservationInProgress_throwsException() {
-                    Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now().plusMinutes(5), LocalDateTime.now().plusHours(1), user, "Class1");
+                    Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now().plusMinutes(5), LocalDateTime.now().plusHours(1), user, "Class1", "Professor1");
                     when(reservationRepository.findReservationById("1")).thenReturn(reservation);
 
                     assertThrows(IllegalStateException.class, () -> {
@@ -103,7 +103,7 @@ package edu.eci.cvds.reservas.service;
 
                 @Test
                 void deleteReservation_deletesReservation() {
-                    Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1).plusHours(1), user, "Class1");
+                    Reservation reservation = new Reservation(LocalDateTime.now(), lab1, LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1).plusHours(1), user, "Class1", "Professor1");
                     when(reservationRepository.findReservationById("1")).thenReturn(reservation);
 
                     reservationService.deleteReservation("1");

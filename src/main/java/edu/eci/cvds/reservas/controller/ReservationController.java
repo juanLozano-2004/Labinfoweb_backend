@@ -29,7 +29,7 @@ public class ReservationController {
         }
     }
 
-    @PostMapping("/post/")
+    @PostMapping("/post")
     public ResponseEntity<?> reserveLaboratory(@RequestBody Reservation reserva) {
         HashMap<String, Object> response = new HashMap<>();
         try{

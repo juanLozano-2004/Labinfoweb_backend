@@ -19,6 +19,7 @@ public class Reservation {
     private User user;
     private String className;
     private LocalDateTime creationDate;
+    private String professorName = "Generic Professor";
 
     /**
      * Default constructor for Reservation.
@@ -36,13 +37,14 @@ public class Reservation {
      * @param user         the user who made the reservation
      * @param className    the class name associated with the reservation
      */
-    public Reservation(LocalDateTime creationDate, Laboratory laboratory, LocalDateTime startTime, LocalDateTime endTime, User user, String className) {
+    public Reservation(LocalDateTime creationDate, Laboratory laboratory, LocalDateTime startTime, LocalDateTime endTime, User user, String className, String professorName) {
         this.laboratory = laboratory;
         this.user = user;
         this.startTime = startTime;
         this.endTime = endTime;
         this.className = className;
         this.creationDate = creationDate;
+        this.professorName = professorName;
     }
 
     /**
@@ -187,6 +189,25 @@ public class Reservation {
      */
     public void setId(String id) {
         this.idReservation = id;
+    }
+
+    /**
+     * Returns the professor name associated with the reservation.
+     *
+     * @return the professor name
+     */
+    public String getProfessorName() {
+        return professorName;
+    }
+
+    /**
+     * Sets the professor name associated with the reservation.
+     *
+     * @param professorName the new professor name
+     */
+
+    public void setProfessorName(String professorName) {
+        this.professorName = professorName;
     }
 
     /**
