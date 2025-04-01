@@ -141,21 +141,6 @@ public class UserServiceTests {
         assertNull(result);
     }
 
-//    @Test
-//    void getAllReservationByUserId_whenUserExists_returnsReservations() {
-//        User user = new User("user1", "user1@example.com", "password", "User One", Role.USER, LocalDate.now(), LocalDateTime.now());
-//        Reservation reservation = new Reservation(LocalDateTime.now(), "Lab1", LocalDateTime.now(), user, "Class1");
-//        List<Reservation> reservations = Arrays.asList(reservation);
-//        when(userRepository.existsById("1")).thenReturn(true);
-//        when(reservationRepository.findAllReservations()).thenReturn(reservations);
-//
-//        List<Reservation> result = userService.getAllReservationByUserId("1");
-//
-//        assertNotNull(result);
-//        System.out.println(result);
-//        assertEquals(1, result.size());
-//        assertEquals("Lab1", result.get(0).getLaboratory());
-//    }
 
     @Test
     void getAllReservationByUserId_whenUserDoesNotExist_throwsException() {

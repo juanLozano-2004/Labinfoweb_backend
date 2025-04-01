@@ -2,16 +2,19 @@ package edu.eci.cvds.reservas.controller;
 
 import edu.eci.cvds.reservas.model.Reservation;
 import edu.eci.cvds.reservas.service.ReservationService;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.lang.model.util.Elements;
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/reservation")
+@CrossOrigin(origins = "*")
 public class ReservationController {
 
     @Autowired
@@ -29,10 +32,14 @@ public class ReservationController {
         }
     }
 
-    @PostMapping("/post/")
+    @PostMapping("/create")
+    @PermitAll
     public ResponseEntity<?> reserveLaboratory(@RequestBody Reservation reserva) {
+        System.out.println("Solicitud recibida en /api/v1/reservation/create");
+        System.out.println("Datos de la reserva: " + reserva);
+    
         HashMap<String, Object> response = new HashMap<>();
-        try{
+        try {
             return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.saveReservation(reserva));
         } catch (Exception e) {
             response.put("error", e.getMessage());
@@ -40,7 +47,7 @@ public class ReservationController {
         }
     }
 
-    @PatchMapping("/update")
+    @PostMapping("/update")
     public ResponseEntity<?> updateReservation(@RequestBody Reservation reservation) {
         HashMap<String, Object> response = new HashMap<>();
         try {
@@ -61,6 +68,29 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+
+    @GetMapping("/getByUser/{id}")
+    public ResponseEntity<?> getReservationsByUser(@PathVariable String id) {
+        HashMap<String, Object> response = new HashMap<>();
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(reservationService.getReservationsByUser(id));
+        } catch (Exception e) {
+            response.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+    @GetMapping("/getByLaboratory/{id}")
+    public ResponseEntity<?> getReservationsByLaboratory(@PathVariable String id) {
+        HashMap<String, Object> response = new HashMap<>();
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(reservationService.getReservationsByLaboratory(id));
+        } catch (Exception e) {
+            response.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
 
 
     @DeleteMapping("/delete/{id}")

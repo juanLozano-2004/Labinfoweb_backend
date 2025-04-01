@@ -90,4 +90,14 @@ public class LaboratoryService {
         }
         return laboratoriesReservations;
     }
+
+    /**
+     * Updates a Laboratory entity.
+     *
+     * @param laboratory the Laboratory entity to update
+     * @return the updated Laboratory entity
+     */
+    public Laboratory updateLaboratory(Laboratory laboratory) {
+        return laboratoryRepository.updateLaboratory(laboratory);
+    }
 }
