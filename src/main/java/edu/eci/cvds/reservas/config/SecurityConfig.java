@@ -32,22 +32,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Habilita CORS
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(AbstractHttpConfigurer::disable) // Deshabilita CSRF para evitar problemas con solicitudes desde el frontend
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Configura sesiones sin estado
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/laboratory/all").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/v1/laboratory/getLaboratory/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/api/v1/laboratory/create/**").hasRole("ADMIN")
-                        .requestMatchers("/api/v1/reservation/**").permitAll()
-//                        .requestMatchers("/api/v1/reservation/delete/**").hasRole("ADMIN")
-//                        .requestMatchers("/api/v1/reservation/post/**").hasAnyRole("ADMIN", "USER")
-//                        .requestMatchers("/api/v1/reservation/update/**").hasAnyRole("ADMIN", "USER")
-//                        .requestMatchers("/api/v1/reservation/get/**").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/api/v1/user/all").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+                    .requestMatchers("/api/v1/auth/**").permitAll()
+                    .requestMatchers("/api/v1/laboratory/all").hasAnyRole("USER", "ADMIN")
+                    .requestMatchers("/api/v1/laboratory/getLaboratory/**").hasAnyRole("ADMIN", "USER")
+                    .requestMatchers("/api/v1/laboratory/create/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/reservation/create").permitAll() // Permitir acceso sin autenticación
+                    .requestMatchers("/api/v1/user/all").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/user/getByUsername/**").hasAnyRole("ADMIN", "USER")
+                    .anyRequest().authenticated()
+                ) // Requiere autenticación para cualquier otra solicitud
+                .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class); // Agrega el filtro JWT antes del filtro de autenticación predeterminado
 
         return http.build();
     }
@@ -56,17 +53,14 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Permitir solicitudes desde el frontend
         configuration.setAllowedHeaders(List.of("Origin", "Content-Type", "Accept", "Authorization"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-
+    
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
-
-
     /**
      * Bean for password encoding using BCrypt.
      *

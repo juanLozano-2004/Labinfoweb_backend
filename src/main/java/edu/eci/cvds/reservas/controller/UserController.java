@@ -123,5 +123,17 @@ public class UserController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
+    @GetMapping("getByUsername/{Username}")
+    public ResponseEntity<?> getUserByUsername(@PathVariable String Username) {
+        HashMap<String, String> response;
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(userService.getUserByUsername(Username));
+        } catch (Exception e) {
+            response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 }
 

@@ -1,13 +1,16 @@
 package edu.eci.cvds.reservas.repository.reservation;
 
+    import edu.eci.cvds.reservas.model.Laboratory;
     import edu.eci.cvds.reservas.model.Reservation;
     import org.springframework.data.mongodb.repository.MongoRepository;
     import org.springframework.stereotype.Repository;
 
     import java.time.LocalDateTime;
+    import java.util.ArrayList;
     import java.util.List;
+    import java.util.stream.Collectors;
 
-    /**
+/**
      * Repository interface for Reservation entities using MongoDB.
      * Extends ReservationRepository and MongoRepository to provide CRUD operations.
      */
@@ -51,14 +54,14 @@ package edu.eci.cvds.reservas.repository.reservation;
          * Deletes a Reservation entity.
          * Throws a RuntimeException if the Reservation entity does not exist.
          *
-         * @param reservation the Reservation entity to delete
+         * @param reservationId the Reservation entity to delete
          */
         @Override
-        default void deleteReservation(Reservation reservation) {
-            if (!existsById(reservation.getId())) {
+        default void deleteReservationById(String reservationId) {
+            if (reservationId == null) {
                 throw new RuntimeException("Reservation not found");
             }
-            delete(reservation);
+            deleteById(reservationId);
         }
 
         /**
@@ -106,4 +109,30 @@ package edu.eci.cvds.reservas.repository.reservation;
         default void deleteAllReservations() {
             deleteAll();
         }
+
+        /**
+         * Finds Reservation entities by the laboratory where the reservation was made.
+         *
+         * @param laboratoryId the laboratory where the reservation was made
+         * @return a list of Reservation entities made in the specified laboratory
+         *
+         *
+         */
+        @Override
+        default List<Reservation> findReservationsByLaboratory(String laboratoryId){
+            List<Reservation> res = findAllReservations();
+            List<Reservation> resLab = new ArrayList<>();
+            try{
+            for (Reservation reservation : res){
+                if (reservation.getLaboratory().getName().equals(laboratoryId)){
+                   resLab.add(reservation);
+                }
+            }
+            return resLab;
+            }
+            catch (Exception e){
+                return null;
+            }
+        }
+
     }

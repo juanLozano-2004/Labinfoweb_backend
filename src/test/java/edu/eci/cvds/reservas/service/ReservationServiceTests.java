@@ -108,6 +108,6 @@ package edu.eci.cvds.reservas.service;
 
                     reservationService.deleteReservation("1");
 
-                    verify(reservationRepository, times(1)).deleteReservation(reservation);
+                    verify(reservationRepository, times(1)).deleteReservationById(reservation.getId());
                 }
             }

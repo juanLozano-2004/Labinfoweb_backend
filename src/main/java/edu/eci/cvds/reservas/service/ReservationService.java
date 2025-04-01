@@ -38,6 +38,14 @@ package edu.eci.cvds.reservas.service;
              * @return the saved or updated Reservation entity
              */
             public Reservation saveReservation(Reservation reservation) {
+                List<Reservation> existingReservations = reservationRepository.findAllReservations();
+                for (Reservation existingReservation : existingReservations) {
+                    if (existingReservation.getStartTime().isEqual(reservation.getStartTime()) &&
+                            existingReservation.getEndTime().isEqual(reservation.getEndTime()) &&
+                            existingReservation.getLaboratory().getName().equals(reservation.getLaboratory().getName())) {
+                        throw new IllegalArgumentException("A reservation with the same start time and end time already exists.");
+                    }
+                }
                 return reservationRepository.saveReservation(reservation);
             }
 
@@ -49,21 +57,10 @@ package edu.eci.cvds.reservas.service;
              * @param id the ID of the Reservation entity to delete
              */
             public void deleteReservation(String id) {
-                if (id == null || id.trim().isEmpty()) {
-                    throw new IllegalArgumentException("The reservation ID cannot be empty or null.");
+                if(id == null || id.isEmpty()) {
+                    throw new IllegalArgumentException("The ID cannot be null or empty.");
                 }
-                Reservation reservation = reservationRepository.findReservationById(id);
-                LocalDateTime today = LocalDateTime.now();
-                LocalDateTime reservationTime = reservation.getStartTime();
-                if (!reservationTime.isAfter(today)) {
-                    throw new IllegalStateException("Reservations in the past cannot be canceled.");
-                }
-                if (today.isAfter(reservationTime.minusMinutes(10)) && today.isBefore(reservationTime.plusMinutes(10))) {
-                    throw new IllegalStateException("Cannot cancel a reservation that is currently in progress.");
-                }
-                Reservation r = reservationRepository.findReservationById(id);
-                reservationRepository.deleteReservation(r);
-                System.out.println("Successfully canceled reservation with ID: " + id);
+                reservationRepository.deleteReservationById(id);
             }
 
             public Reservation getReservationById(String id) {
@@ -74,8 +71,16 @@ package edu.eci.cvds.reservas.service;
                 return reservationRepository.findByUser(username);
             }
 
-            public Reservation updateReservation(Reservation reservation) {
-                return reservationRepository.updateReservation(reservation);
+            public List<Reservation> getReservationsByLaboratory(String laboratoryId) {
+                return reservationRepository.findReservationsByLaboratory(laboratoryId);
             }
 
+            public Reservation updateReservation(Reservation reservation) {
+                if (!reservationRepository.existsById(reservation.getId())) {
+                    throw new IllegalArgumentException("The reservation does not exist.");
+                } else {
+                    return reservationRepository.updateReservation(reservation);
+                }
+
+            }
         }

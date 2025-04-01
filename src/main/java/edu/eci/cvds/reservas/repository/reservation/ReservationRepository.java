@@ -43,9 +43,9 @@ public interface ReservationRepository {
     /**
      * Deletes a Reservation entity.
      *
-     * @param reservation the Reservation entity to delete
+     * @param reservationId the Reservation entity to delete
      */
-    void deleteReservation(Reservation reservation);
+    void deleteReservationById(String reservationId);
 
     /**
      * Updates a Reservation entity.
@@ -67,4 +67,12 @@ public interface ReservationRepository {
      * Deletes all Reservation entities.
      */
     void deleteAllReservations();
+
+    /**
+     * Finds a Reservation entity by its laboratory ID.
+     *
+     * @param laboratoryId the ID of the laboratory
+     * @return the found Reservation entity, or null if not found
+     */
+    List<Reservation> findReservationsByLaboratory(String laboratoryId);
 }
