@@ -111,4 +111,13 @@ public class UserService {
         userRepository.updateUser(user);
     }
 
+    /**
+     * Updates a User entity.
+     *
+     * @param user the User entity to update.
+     * @return the updated User entity.
+     */
+    public User updateUser(User user) {
+        return userRepository.updateUser(user);
+    }
 }
