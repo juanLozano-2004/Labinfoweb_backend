@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.eci.cvds.reservas.model.Laboratory;
 import edu.eci.cvds.reservas.service.LaboratoryService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
 @RestController
 @RequestMapping("/api/v1/laboratory")
 public class LaboratoryController {
@@ -24,10 +30,20 @@ public class LaboratoryController {
     @Autowired
     private LaboratoryService laboratoryService;
 
+    @Operation(
+            summary = "Obtener todos los laboratorios",
+            description = "Devuelve una lista de todos los laboratorios disponibles",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Laboratorios encontrados", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Laboratory.class))),
+                    @ApiResponse(responseCode = "400", description = "Error al obtener los laboratorios", content = @Content)
+            }
+    )
     @GetMapping("/all")
     public List<Laboratory> getAllLaboratories(){
         return laboratoryService.getAllLaboratories();
     }
+
+
 
     @PostMapping("/create")
     public ResponseEntity<?> saveLaboratory(@RequestBody Laboratory laboratory){
@@ -43,6 +59,8 @@ public class LaboratoryController {
 
     }
 
+
+
     @PostMapping("/update")
     public ResponseEntity<?> updateLaboratory(@RequestBody Laboratory laboratory){
         HashMap<String, String> response;
@@ -55,6 +73,15 @@ public class LaboratoryController {
         }
     }
 
+
+    @Operation(
+            summary = "Obtener un laboratorio por su ID",
+            description = "Devuelve un laboratorio específico basado en su ID",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Laboratorio encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Laboratory.class))),
+                    @ApiResponse(responseCode = "400", description = "Error al obtener el laboratorio por ID", content = @Content)
+            }
+    )
     @GetMapping("/{idLaboratory}")
     public ResponseEntity<?> getLaboratoryById(@PathVariable String idLaboratory) {
         HashMap<String, String> response;
@@ -67,6 +94,15 @@ public class LaboratoryController {
         }
     }
 
+
+    @Operation(
+            summary = "Eliminar un laboratorio por su ID",
+            description = "Permite eliminar un laboratorio dado su ID",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Laboratorio eliminado", content = @Content),
+                    @ApiResponse(responseCode = "400", description = "Error al eliminar el laboratorio", content = @Content)
+            }
+    )
     @DeleteMapping("/{idLaboratory}")
     public ResponseEntity<?> deleteLaboratory(@PathVariable String idLaboratory) {
         HashMap<String, String> response;
@@ -81,7 +117,16 @@ public class LaboratoryController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-    
+
+
+    @Operation(
+            summary = "Obtener laboratorios por ubicación",
+            description = "Devuelve una lista de laboratorios disponibles en una ubicación específica",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Laboratorios encontrados en la ubicación", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Laboratory.class))),
+                    @ApiResponse(responseCode = "400", description = "Error al obtener los laboratorios por ubicación", content = @Content)
+            }
+    )
     @GetMapping("/getLaboratory/{location}")
     public ResponseEntity<?> getAllLaboratoriesByLocation(@PathVariable String location) {
         HashMap<String, String> response;

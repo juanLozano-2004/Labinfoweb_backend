@@ -41,14 +41,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Disable CSRF to avoid issues with frontend requests
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Configure stateless sessions
                 .authorizeHttpRequests(requests -> requests
-                    .requestMatchers("/api/v1/auth/**").permitAll()
-                    .requestMatchers("/api/v1/laboratory/all").hasAnyRole("USER", "ADMIN")
-                    .requestMatchers("/api/v1/laboratory/getLaboratory/**").hasAnyRole("ADMIN", "USER")
-                    .requestMatchers("/api/v1/laboratory/create/**").hasRole("ADMIN")
-                    .requestMatchers("/api/v1/reservation/create").permitAll() // Allow access without authentication
-                    .requestMatchers("/api/v1/user/all").hasRole("ADMIN")
-                    .requestMatchers("/api/v1/user/getByUsername/**").hasAnyRole("ADMIN", "USER")
-                    .anyRequest().authenticated()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/laboratory/all").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/v1/laboratory/getLaboratory/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/api/v1/laboratory/create/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/reservation/create").permitAll() // Allow access without authentication
+                        .requestMatchers("/api/v1/user/all").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/user/getByUsername/**").hasAnyRole("ADMIN", "USER")
+                        .anyRequest().authenticated()
                 ) // Require authentication for any other request
                 .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class); // Add JWT filter before the default authentication filter
 

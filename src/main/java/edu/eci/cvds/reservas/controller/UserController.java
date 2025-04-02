@@ -9,6 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +24,11 @@ import java.util.List;
  * UserController class provides RESTful endpoints for User-related operations.
  * It uses UserService to handle business logic.
  */
+@Tag(name = "User Controller", description = "Controlador para la gestión de usuarios")
 @RestController
 @RequestMapping("/api/v1/user")
+
+
 public class UserController {
 
     @Autowired
@@ -31,6 +41,14 @@ public class UserController {
      * Retrieves all Users.
      * @return a list of all Users.
      */
+    @Operation(
+            summary = "Obtener todos los usuarios",
+            description = "Retorna una lista de todos los usuarios registrados en el sistema",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Lista obtenida correctamente"),
+                    @ApiResponse(responseCode = "400", description = "Error en la solicitud", content = @Content)
+            }
+    )
     @GetMapping("/all")
     public List<User> getAllUsers() {
         return userService.getAllUser();
@@ -41,6 +59,14 @@ public class UserController {
      * @param user the User to create.
      * @return a ResponseEntity with the created User or an error message.
      */
+    @Operation(
+            summary = "Crear un usuario",
+            description = "Crea un nuevo usuario con la información proporcionada",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Usuario creado exitosamente"),
+                    @ApiResponse(responseCode = "400", description = "Datos inválidos o error en la solicitud", content = @Content)
+            }
+    )
     @PostMapping("/create")
     public ResponseEntity<?> saveUser(@RequestBody User user) {
         HashMap<String, String> response;
@@ -75,6 +101,14 @@ public class UserController {
      * @param id the ID of the User to retrieve.
      * @return a ResponseEntity with the User or an error message.
      */
+    @Operation(
+            summary = "Obtener un usuario por ID",
+            description = "Recupera un usuario según el ID proporcionado.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Usuario encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+                    @ApiResponse(responseCode = "400", description = "ID inválido o no encontrado", content = @Content)
+            }
+    )
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable String id) {
         HashMap<String, String> response;
@@ -92,6 +126,14 @@ public class UserController {
      * @param id the ID of the User to delete.
      * @return a ResponseEntity with a success message or an error message.
      */
+    @Operation(
+            summary = "Eliminar un usuario por ID",
+            description = "Elimina un usuario de la base de datos según el ID proporcionado.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Usuario eliminado exitosamente"),
+                    @ApiResponse(responseCode = "400", description = "ID inválido o error al eliminar usuario", content = @Content)
+            }
+    )
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable String id) {
         HashMap<String, String> response;
@@ -112,6 +154,14 @@ public class UserController {
      * @param id
      * @return a list of all Reservation of the user
      */
+    @Operation(
+            summary = "Obtener todas las reservas de un usuario",
+            description = "Recupera todas las reservas asociadas a un usuario por su ID.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Reservas obtenidas correctamente"),
+                    @ApiResponse(responseCode = "400", description = "Error al obtener reservas", content = @Content)
+            }
+    )
     @GetMapping("/getReservation/{id}")
     public ResponseEntity<?> getAllReservationByUserId(@PathVariable String id) {
         HashMap<String, String> response;
@@ -124,6 +174,14 @@ public class UserController {
         }
     }
 
+    @Operation(
+            summary = "Obtener un usuario por nombre de usuario",
+            description = "Recupera un usuario utilizando su nombre de usuario.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Usuario encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class))),
+                    @ApiResponse(responseCode = "400", description = "Nombre de usuario no encontrado o error en la solicitud", content = @Content)
+            }
+    )
     @GetMapping("getByUsername/{Username}")
     public ResponseEntity<?> getUserByUsername(@PathVariable String Username) {
         HashMap<String, String> response;
@@ -135,5 +193,8 @@ public class UserController {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
+
+
 }
 

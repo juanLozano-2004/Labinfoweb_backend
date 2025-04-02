@@ -12,6 +12,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.HashMap;
 
 @RestController
@@ -29,6 +34,20 @@ public class AuthController {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+
+    @Operation(
+            summary = "Login de usuario",
+            description = "Permite a los usuarios autenticarse y recibir un token JWT para acceder a los recursos protegidos de la API",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Credenciales de autenticación (nombre de usuario y contraseña)",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = AuthenticationRequest.class))
+            ),
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Autenticación exitosa, se genera un token JWT", content = @Content(mediaType = "application/json")),
+                    @ApiResponse(responseCode = "400", description = "Error en la autenticación, credenciales incorrectas", content = @Content)
+            }
+    )
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody AuthenticationRequest authenticationRequest) {
