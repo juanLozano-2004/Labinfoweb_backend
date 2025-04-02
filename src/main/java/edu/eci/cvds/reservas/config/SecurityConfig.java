@@ -41,14 +41,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Disable CSRF to avoid issues with frontend requests
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Configure stateless sessions
                 .authorizeHttpRequests(requests -> requests
-                    .requestMatchers("/api/v1/auth/**").permitAll()
-                    .requestMatchers("/api/v1/laboratory/all").hasAnyRole("USER", "ADMIN")
-                    .requestMatchers("/api/v1/laboratory/getLaboratory/**").hasAnyRole("ADMIN", "USER")
-                    .requestMatchers("/api/v1/laboratory/create/**").hasRole("ADMIN")
-                    .requestMatchers("/api/v1/reservation/create").permitAll() // Allow access without authentication
-                    .requestMatchers("/api/v1/user/all").hasRole("ADMIN")
-                    .requestMatchers("/api/v1/user/getByUsername/**").hasAnyRole("ADMIN", "USER")
-                    .anyRequest().authenticated()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/laboratory/all").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/v1/laboratory/getLaboratory/**").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/api/v1/laboratory/create/**").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/reservation/create").permitAll() // Allow access without authentication
+                        .requestMatchers("/api/v1/user/all").hasRole("ADMIN")
+                        .requestMatchers("/api/v1/user/getByUsername/**").hasAnyRole("ADMIN", "USER")
+                        .anyRequest().authenticated()
                 ) // Require authentication for any other request
                 .addFilterBefore(jwtRequestFilter(), UsernamePasswordAuthenticationFilter.class); // Add JWT filter before the default authentication filter
 
@@ -64,7 +64,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Allow requests from the frontend
+        configuration.setAllowedOrigins(List.of("https://http://reservaslab-ffbuckbwb7fhhwc3.canadacentral-01.azurewebsites.net/")); // Allow requests from the frontend
         configuration.setAllowedHeaders(List.of("Origin", "Content-Type", "Accept", "Authorization"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 
