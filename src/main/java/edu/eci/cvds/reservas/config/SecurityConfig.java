@@ -64,7 +64,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Allow requests from the frontend
+        configuration.setAllowedOrigins(List.of("https://http://reservaslab-ffbuckbwb7fhhwc3.canadacentral-01.azurewebsites.net/")); // Allow requests from the frontend
         configuration.setAllowedHeaders(List.of("Origin", "Content-Type", "Accept", "Authorization"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 
